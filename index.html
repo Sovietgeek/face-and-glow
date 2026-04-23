@@ -31,6 +31,31 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.8s ease;
     }
+
+    /* Mobile Optimization - Add this inside your <style> tag */
+@media (max-width: 768px) {
+  /* Hero section ki text aur image ko center karne ke liye */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  
+  /* Stats cards ko 2 columns mein dikhane ke liye (taki space bache) */
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px;
+  }
+
+  /* Booking aur Contact forms ko stack karne ke liye */
+  .booking-grid, .about-grid, .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Cart ko full screen karne ke liye mobile par */
+  #cart-sidebar {
+    width: 100% !important;
+  }
+}
     .loader-logo {
       font-family: 'Playfair Display', serif;
       font-size: 3rem; font-weight: 900;
@@ -557,6 +582,12 @@
       background: rgba(26,10,46,0.98); padding: 20px;
       border-top: 1px solid rgba(201,169,110,0.2);
     }
+    .mobile-menu {
+    z-index: 5000; /* Isse menu buttons ke peeche nahi chupega */
+    position: fixed;
+    top: 60px; /* Navbar ke niche */
+    width: 100%;
+}
     .mobile-menu.open { display: flex; }
     .mobile-link { color: rgba(255,255,255,0.8); text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
 
@@ -1785,15 +1816,30 @@ function initAboutGrid() {
     if (fg) fg.style.gridTemplateColumns = '1fr 1fr';
   }
 }
-
+// toggle between service and product in mobile view
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  menu.classList.toggle('open');
+  
+  // Mobile par menu khulne par background scroll lock karne ke liye
+  if (menu.classList.contains('open')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
+}
 // ==================== INIT ====================
 window.addEventListener('load', () => {
+  // 1. Loader Logic (Purana wala)
   setTimeout(() => {
     const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => loader.remove(), 800);
+    if(loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 800);
+    }
   }, 2200);
 
+  // 2. Mobile View Init (Naya wala add karein)
   renderServices();
   renderProducts();
   renderTeam();
@@ -1802,8 +1848,11 @@ window.addEventListener('load', () => {
   updateCartUI();
   startCountdown();
   setMinDate();
+  
+  // Responsive layout check for Mobile
   initHeroGrid();
   initAboutGrid();
+  
   setTimeout(initReveal, 100);
 });
 
