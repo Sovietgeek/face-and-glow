@@ -30,9 +30,9 @@ export function SiteHeader() {
   const router = useRouter()
   const { items } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { data: session, isPending } = authClient.useSession()
+  const { data: session, isPending, isLoading } = authClient.useSession()
 
-  const isAdmin = (session?.user as { role?: string } | undefined)?.role === 'admin'
+  const isAdmin = session?.user && (session.user as { role?: string }).role === 'admin'
 
   async function handleSignOut() {
     await authClient.signOut()
@@ -86,7 +86,7 @@ export function SiteHeader() {
             )}
           </Button>
 
-          {!isPending && session?.user ? (
+          {!isPending && !isLoading && session?.user ? (
             <DropdownMenu>
               <DropdownMenuTrigger
                 render={<Button variant="ghost" size="icon" aria-label="Account menu" />}
@@ -115,7 +115,7 @@ export function SiteHeader() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : !isPending ? (
+          ) : !isPending && !isLoading ? (
             <Button
               render={<Link href="/sign-in" />}
               size="sm"
@@ -153,7 +153,7 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          {!session?.user && (
+          {!isPending && !isLoading && !session?.user && (
             <Link
               href="/sign-in"
               onClick={() => setMobileOpen(false)}
