@@ -72,25 +72,20 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button
-            render={<Link href="/cart" aria-label={`Cart with ${items.length} items`} />}
-            variant="ghost"
-            size="icon"
-            className="relative"
-          >
-            <ShoppingBag className="size-5" />
-            {items.length > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex size-4.5 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
-                {items.length}
-              </span>
-            )}
-          </Button>
+          <Link href="/cart" aria-label={`Cart with ${items.length} items`}>
+            <Button variant="ghost" size="icon" className="relative">
+              <ShoppingBag className="size-5" />
+              {items.length > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex size-4.5 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
+                  {items.length}
+                </span>
+              )}
+            </Button>
+          </Link>
 
           {!isPending && !isLoading && session?.user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger
-                render={<Button variant="ghost" size="icon" aria-label="Account menu" />}
-              >
+              <DropdownMenuTrigger className="h-9 w-9 rounded-md hover:bg-accent">
                 <User className="size-5" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52">
@@ -98,12 +93,12 @@ export function SiteHeader() {
                   {session.user.name}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem render={<Link href="/account" />}>
+                <DropdownMenuItem onClick={() => router.push('/account')}>
                   <CalendarDays className="size-4" />
                   My Bookings
                 </DropdownMenuItem>
                 {isAdmin && (
-                  <DropdownMenuItem render={<Link href="/admin" />}>
+                  <DropdownMenuItem onClick={() => router.push('/admin')}>
                     <LayoutDashboard className="size-4" />
                     Admin Dashboard
                   </DropdownMenuItem>
@@ -116,13 +111,11 @@ export function SiteHeader() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : !isPending && !isLoading ? (
-            <Button
-              render={<Link href="/sign-in" />}
-              size="sm"
-              className="hidden md:inline-flex"
-            >
-              Sign In
-            </Button>
+            <Link href="/sign-in">
+              <Button size="sm" className="hidden md:inline-flex">
+                Sign In
+              </Button>
+            </Link>
           ) : null}
 
           <Button
