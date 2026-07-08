@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Sparkles, CalendarCheck, ShieldCheck, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { ServiceCard } from '@/components/service-card'
 import { ReviewCard } from '@/components/review-card'
 import { getFeaturedServices, getApprovedReviews } from '@/app/actions/services'
@@ -36,13 +36,16 @@ export default async function HomePage() {
               online in under a minute.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button render={<Link href="/services" />} size="lg">
+              <Link href="/services" className={buttonVariants({ size: 'lg' })}>
                 Book Appointment
                 <ArrowRight className="size-4" />
-              </Button>
-              <Button render={<Link href="/services" />} size="lg" variant="outline">
+              </Link>
+              <Link
+                href="/services"
+                className={buttonVariants({ size: 'lg', variant: 'outline' })}
+              >
                 Explore Services
-              </Button>
+              </Link>
             </div>
             <div className="flex flex-wrap items-center gap-6 pt-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-2">
@@ -117,23 +120,28 @@ export default async function HomePage() {
                 Our most loved services, at prices you&apos;ll love too.
               </p>
             </div>
-            <Button
-              render={<Link href="/services" />}
-              variant="outline"
-              className="hidden md:inline-flex"
+            <Link
+              href="/services"
+              className={buttonVariants({
+                variant: 'outline',
+                className: 'hidden md:inline-flex',
+              })}
             >
               View All
               <ArrowRight className="size-4" />
-            </Button>
+            </Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featured.slice(0, 6).map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
-          <Button render={<Link href="/services" />} variant="outline" className="md:hidden">
+          <Link
+            href="/services"
+            className={buttonVariants({ variant: 'outline', className: 'md:hidden' })}
+          >
             View All Services
-          </Button>
+          </Link>
         </div>
       </section>
 
@@ -154,9 +162,9 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="flex justify-center">
-            <Button render={<Link href="/reviews" />} variant="outline">
+            <Link href="/reviews" className={buttonVariants({ variant: 'outline' })}>
               Read All Reviews
-            </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -172,10 +180,13 @@ export default async function HomePage() {
               Pick your services, choose a time slot that suits you, and walk in
               to a pampering experience. Pay at the salon after your service.
             </p>
-            <Button render={<Link href="/services" />} size="lg" variant="secondary">
+            <Link
+              href="/services"
+              className={buttonVariants({ size: 'lg', variant: 'secondary' })}
+            >
               Book Your Appointment
               <ArrowRight className="size-4" />
-            </Button>
+            </Link>
           </div>
         </div>
       </section>
